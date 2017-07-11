@@ -1,0 +1,137 @@
+@import '../../node_modules/normalize.css/normalize.css';
+//@import '../../node_modules/aos/dist/aos.css';
+//@import '../../node_modules/vanilla-js-carousel/vanilla-js-carousel.css';
+//@import '../../node_modules/flickity/css/flickity.css';
+@import '../mixins';
+
+
+// HELPERS
+
+body {
+	padding: 20px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+
+
+
+$activityTextSize: 20px;
+
+.activity, .tab {
+	position: relative;
+	display: block;
+	width: 469px;
+	max-width: 100%;
+	margin: 0 auto;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.07);
+	border-radius: 4px;
+	font-family: Arial, sans-serif;
+}
+
+.slider {
+	position: relative;
+	&-main {
+		height: 600px;
+		background-color: #ddd;
+		position: relative;
+	}
+	&-scale {
+		position: absolute;
+		top: 20px;
+		bottom: 20px;
+		right: 60px;
+		width: 10px;
+		&__line {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			border-radius: 6px;
+			background: #aaa;
+		}
+		&__dot {
+			display: block;
+			position: absolute;
+			top: 0%;
+			left: 50%;
+			margin-top: -10px;
+			margin-left: -10px;
+			width: 20px;
+			height: 20px;
+			background-color: #777;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+	}
+}
+
+
+// Game animations
+
+// - fade
+.fade-enter-active, .fade-leave-active {
+	transition: 400ms cubic-bezier(0.24, 0.71, 0.57, 0.96);
+}
+.fade-leave-to {
+	transform: scale(1.15);
+	transition: 600ms cubic-bezier(0.24, 0.71, 0.57, 0.96);
+	//transform: translate(-400px, 1.5px) rotate(-40deg);
+}
+.fade-enter, .fade-leave-to {
+	opacity: 0;
+}
+
+// - fade left
+.fadeLeft-enter-active, .fadeLeft-leave-active {
+	transition: transform 3000ms cubic-bezier(0.24, 0.71, 0.57, 0.96), opacity 3000ms cubic-bezier(0.24, 0.71, 0.57, 0.96) !important;
+}
+.fadeLeft-leave-to {
+	transform: translate(-400px, 1.5px) rotate(-40deg) !important;
+}
+.fadeLeft-enter, .fadeLeft-leave-to {
+	opacity: 0 !important;
+}
+
+// - fade right
+.fadeRight-enter-active, .fadeRight-leave-active {
+	transition: transform 3000ms cubic-bezier(0.24, 0.71, 0.57, 0.96), opacity 3000ms cubic-bezier(0.24, 0.71, 0.57, 0.96) !important;
+}
+.fadeRight-leave-to {
+	transform: translate(400px, 1.5px) rotate(40deg) !important;
+}
+.fadeRight-enter, .fadeRight-leave-to {
+	opacity: 0 !important;
+}
+
+// - fade in
+.fadeIn-enter-active,
+.fadeIn-leave-active {
+	transition:
+			transform 1000ms cubic-bezier(0.24, 0.71, 0.57, 0.96),
+			opacity 1000ms cubic-bezier(0.24, 0.71, 0.57, 0.96);
+}
+.fadeIn-leave-to {
+	transform: scale(1);
+}
+.fadeIn-enter,
+.fadeIn-leave-to {
+	opacity: 0;
+	transform: scale(1.2);
+}
+
+@keyframes moveLeft {
+	50% {
+		transform: translateX(-7px);
+	}
+}
+
+@keyframes moveRight {
+	50% {
+		transform: translateX(7px);
+	}
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html dir="rtl" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Slider</title>
+	<link href="https://fonts.googleapis.com/css?family=Heebo:100,300,400&amp;subset=hebrew" rel="stylesheet">
+</head>
+<body>
+
+<div class="activity slider" id="slider" :class="{ disable: !enablePlay }">
+	<v-touch @panmove="onPanMove" @panend="onPanEnd">
+		<!--<div-->
+				<!--class="slider-image slider-image&#45;&#45;overlay"-->
+				<!--:class="{ left: isPanLeft, right: isPanRight }"-->
+				<!--:style="[style, { backgroundImage: 'url(' + this.question.imgSrc + ')' }]"-->
+				<!--v-if="question.active"-->
+		<!--&gt;-->
+		<!--</div>-->
+	</v-touch>
+	<div class="slider-main">
+		<div class="slider-scale">
+			<v-touch @tap="onTap">
+				<div class="slider-scale__line" ref="line">
+				</div>
+			</v-touch>
+			<v-touch @panmove="onPanMove" @panend="onPanEnd" @panup="onPanUp" @pandown="onPanDown">
+				<span class="slider-scale__dot" :style="[style, {}]"></span>
+			</v-touch>
+		</div>
+	</div>
+</div> <!-- slider END -->
+
+</body>
+</html>
