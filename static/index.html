@@ -25,10 +25,11 @@
 				<div class="slider-scale__line" ref="line">
 				</div>
 			</v-touch>
-			<v-touch @panmove="onPanMove" @panend="onPanEnd" @panup="onPanUp" @pandown="onPanDown">
+			<v-touch @panmove="onPanMove" @panend="onPanEnd">
 				<span class="slider-scale__dot" :style="[style, {}]"></span>
 			</v-touch>
 		</div>
+		<h1 class="slider-value">{{ value }}</h1>
 	</div>
 </div> <!-- slider END -->
 

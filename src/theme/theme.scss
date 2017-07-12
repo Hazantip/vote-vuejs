@@ -57,7 +57,7 @@ $activityTextSize: 20px;
 		&__dot {
 			display: block;
 			position: absolute;
-			top: 0%;
+			top: 0;
 			left: 50%;
 			margin-top: -10px;
 			margin-left: -10px;
@@ -67,6 +67,15 @@ $activityTextSize: 20px;
 			border-radius: 50%;
 			cursor: pointer;
 		}
+	}
+	&-value {
+		font-size: 3em;
+		position: absolute;
+		left: 20px;
+		bottom: 20px;
+		z-index: 10;
+		margin: 0;
+		color: rgba(0, 0, 0, 0.7);
 	}
 }
 

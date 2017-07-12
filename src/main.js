@@ -14,85 +14,89 @@ function DOMLoaded() {
 
 	// Hammer Pan Events: pan, panstart, panmove, panend, pancancel, panleft, panright, panup, pandown
 
-	const swiperDefaults = {
-		enablePlay: true,				// enable/disable events
-		enableSwipeX: true, 			// - default false
-		enableSwipeY: true,				// - not used
-		style: {},						// - inline css object
-		scaleData: {
-			'height': null
-		}
-	};
-	const swiper = new Vue({
-		el: '#slider',
-		data: {
-			...swiperDefaults,			// default params
-			enablePlay: false,			// initially overrides default value
-			timeline: {
-				showHintDelay: 300,
-				hideHintDelay: 3000,
-				questionLeaveDuration: 300,
-				showResultsDuration: 3000
+	const sliderDefaults = {
+		'enablePlay': true,				// - enable/disable events
+		'enableSwipeX': true, 			// - default false
+		'enableSwipeY': true,				// - not used
+		'value': '0%',
+		'scale': {
+			'height': null				// - total scale height
+		},
+		'dot': {
+			'position': {
+				'y': 0					// - last dot position
 			}
 		},
-		created: function() {
+		'style': {}						// - inline css object for dot
+	};
+	const slider = new Vue({
+		'el': '#slider',
+		'data': {
+			...sliderDefaults,			// - default params
+			'enablePlay': false,			// - initially overrides default value
+			'timeline': {					// - not user
+				'showHintDelay': 300,
+				'hideHintDelay': 3000,
+				'questionLeaveDuration': 300,
+				'showResultsDuration': 3000
+			}
+		},
+		'created': function() {
 			//console.log('created');
 		},
-		beforeMount: function() {
+		'beforeMount': function() {
 			//console.log('beforeMount');
 		},
-		mounted: function() {
+		'mounted': function() {
 			//console.log('mounted');
-			this.setScaleData({
+			this.setScale({
 				'height': this.$refs.line.clientHeight
 			});
 		},
-		beforeUpdate: function() {
+		'beforeUpdate': function() {
 			//console.log('beforeUpdate');
 		},
-		updated: function() {
+		'updated': function() {
 			//console.log('updated');
 		},
-		methods: {
-			'onPanMove': function (props) {
-				console.log('move: ', props);
-				//this.setPosition(props);
+		'methods': {
+			'onPanMove': function ({ type, deltaY }) {
+				const positionY = this.dot.position.y + deltaY;
+				this.setPosition({ type, positionY });
 			},
-			'onPanEnd': function ({ type, deltaX, deltaY }, ...rest) {
-				//console.log(type, deltaX, deltaY, rest);
+			'onPanEnd': function ({ deltaY }) {
+				this.dot.position.y += deltaY;
 			},
-			'onPanUp': function({ type, deltaX, deltaY }, ...rest) {
-				//console.log(type, deltaX, deltaY, rest);
+			'onTap': function ({ type, srcEvent }) {
+				const positionY = srcEvent.offsetY;
+				this.setPosition({ type, positionY });
 			},
-			'onPanDown': function(props) {
-				//console.log(props, props.srcEvent.toElement.clientHeight);
-			},
-			'onTap': function (props) {
-				//console.log('tap: ', props);
-				this.setPosition(props);
-			},
-			'setPosition': function(props) {
-				this.setScaleData({
-					'height': props.srcEvent.srcElement.clientHeight // important for case when was resized
-				});
-				const offsetY = props.srcEvent.offsetY;
-				if (offsetY < 0 || offsetY > this.scaleData.height) {
+			'setPosition': function({ type, positionY }) {
+				const height = slider.$refs.line.clientHeight;
+				this.setScale({ height }); // important for case when was resized
+
+				if (positionY < 0 || positionY > height) {
 					return false;
 				}
 
-				this.style = {
-					'transform': `translateY(${offsetY}px)`
-				};
+				this.setValue({ positionY, height });
+
+				if (type === 'tap') {
+					this.style = {
+						'transform': `translateY(${positionY}px)`
+					};
+					this.dot.position.y = positionY;
+				} else if (type === 'panmove') {
+					this.style = {
+						'transform': `translateY(${positionY}px)`
+					};
+				}
 			},
-			'setScaleData': function(data) {
-				const prevData = this.scaleData;
-				const nextData = data ? data : {
-					height: swiper.$refs.line.clientHeight
-				};
-				this.scaleData = {
-					...prevData,
-					...nextData
-				};
+			'setScale': function(data) {
+				this.scale = Object.assign(this.scale, data, {});
+			},
+			'setValue': function ({ positionY, height }) {
+				this.value = `${((positionY / height) * 100).toFixed(2)}%`;
 			}
 		}
 	});
