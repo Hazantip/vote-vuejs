@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<div class="activity slider" id="slider" :class="{ disable: !enablePlay }">
+<div class="activity slider" id="slider" :class="{ 'enable-play': enablePlay }">
 	<v-touch @panmove="onPanMove" @panend="onPanEnd">
 		<!--<div-->
 				<!--class="slider-image slider-image&#45;&#45;overlay"-->
@@ -21,15 +21,23 @@
 	</v-touch>
 	<div class="slider-main">
 		<div class="slider-scale">
-			<v-touch @tap="onTap">
-				<div class="slider-scale__line" ref="line">
-				</div>
-			</v-touch>
+			<div class="slider-scale__inner">
+				<div class="slider-scale__result" v-if="results.active" :style="[{ height: results.value * 100 + '%' }]"></div>
+				<v-touch @tap="onTap">
+					<div class="slider-scale__line" ref="line">
+					</div>
+				</v-touch>
+			</div>
 			<v-touch @panmove="onPanMove" @panend="onPanEnd">
-				<span class="slider-scale__dot" :style="[style, {}]" :class="startPoint"></span>
+				<span class="slider-scale__handle" :style="[style, {}]" :class="startPoint"></span>
 			</v-touch>
 		</div>
-		<h1 class="slider-value">{{ value }}</h1>
+		<div class="slider-value" v-if="value !== null">{{ printValue() }}</div>
+		<div
+			class="slider-image"
+			:style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"
+		    :class="{ 'results-active': results.active, 'less': results.value > value, 'more': results.value <= value }"
+		></div>
 	</div>
 </div> <!-- slider END -->
 
