@@ -73,14 +73,15 @@ function DOMLoaded() {
 			'onPanEnd': function ({ deltaY }) {
 				this.dot.position.y =
 						this.startPoint === 'bottom'
-							? this.dot.position.y + deltaY
-							: this.dot.position.y + -(deltaY);
+							? this.dot.position.y + -(deltaY)
+							: this.dot.position.y + deltaY;
 			},
 			'onTap': function ({ type, srcEvent }) {
+				const offsetY = srcEvent.offsetY || srcEvent.layerY;
 				const positionY =
 						this.startPoint === 'bottom'
-							? this.scale.height - srcEvent.offsetY
-							: srcEvent.offsetY;
+							? this.scale.height - offsetY
+							: offsetY;
 
 				this.setPosition({ type, positionY });
 			},
