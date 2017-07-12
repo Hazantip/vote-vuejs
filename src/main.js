@@ -17,8 +17,9 @@ function DOMLoaded() {
 	const sliderDefaults = {
 		'enablePlay': true,				// - enable/disable events
 		'enableSwipeX': true, 			// - default false
-		'enableSwipeY': true,				// - not used
+		'enableSwipeY': true,			// - not used
 		'value': '0%',
+		'startPoint': 'bottom',			// - define direction from the point: bottom, top, left, right
 		'scale': {
 			'height': null				// - total scale height
 		},
@@ -61,14 +62,26 @@ function DOMLoaded() {
 		},
 		'methods': {
 			'onPanMove': function ({ type, deltaY }) {
-				const positionY = this.dot.position.y + deltaY;
+				const positionY =
+						this.startPoint === 'bottom'
+							? this.dot.position.y + -(deltaY)
+							: this.dot.position.y + deltaY;
+
 				this.setPosition({ type, positionY });
+
 			},
 			'onPanEnd': function ({ deltaY }) {
-				this.dot.position.y += deltaY;
+				this.dot.position.y =
+						this.startPoint === 'bottom'
+							? this.dot.position.y + deltaY
+							: this.dot.position.y + -(deltaY);
 			},
 			'onTap': function ({ type, srcEvent }) {
-				const positionY = srcEvent.offsetY;
+				const positionY =
+						this.startPoint === 'bottom'
+							? this.scale.height - srcEvent.offsetY
+							: srcEvent.offsetY;
+
 				this.setPosition({ type, positionY });
 			},
 			'setPosition': function({ type, positionY }) {
@@ -83,12 +96,12 @@ function DOMLoaded() {
 
 				if (type === 'tap') {
 					this.style = {
-						'transform': `translateY(${positionY}px)`
+						'transform': `translateY(${this.startPoint === 'bottom' ? -positionY : positionY}px)`
 					};
 					this.dot.position.y = positionY;
 				} else if (type === 'panmove') {
 					this.style = {
-						'transform': `translateY(${positionY}px)`
+						'transform': `translateY(${this.startPoint === 'bottom' ? -positionY : positionY}px)`
 					};
 				}
 			},
@@ -96,7 +109,7 @@ function DOMLoaded() {
 				this.scale = Object.assign(this.scale, data, {});
 			},
 			'setValue': function ({ positionY, height }) {
-				this.value = `${((positionY / height) * 100).toFixed(2)}%`;
+				this.value = `${Math.round(((positionY / height) * 100))}%`;
 			}
 		}
 	});

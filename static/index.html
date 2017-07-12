@@ -26,7 +26,7 @@
 				</div>
 			</v-touch>
 			<v-touch @panmove="onPanMove" @panend="onPanEnd">
-				<span class="slider-scale__dot" :style="[style, {}]"></span>
+				<span class="slider-scale__dot" :style="[style, {}]" :class="startPoint"></span>
 			</v-touch>
 		</div>
 		<h1 class="slider-value">{{ value }}</h1>
