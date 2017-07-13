@@ -39,6 +39,12 @@ module.exports = webpackMerge(webpackCommon, {
         options: {
           loaders: {
             scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+          },
+          postcss: {
+            plugins: [require('autoprefixer')()],
+            options: {
+              sourceMap: true
+            }
           }
         }
       },
