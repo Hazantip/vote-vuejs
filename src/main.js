@@ -1,7 +1,7 @@
 // - global css
 import Vue from 'vue';
 import VueTouch from 'vue-touch';
-import sliderComponent from './slider/slider.vue';
+import voteComponent from './vote/vote.vue';
 import './theme/theme.scss';
 
 /**
@@ -13,9 +13,9 @@ function DOMLoaded() {
 
 	// Hammer Pan Events: pan, panstart, panmove, panend, pancancel, panleft, panright, panup, pandown
 	// TODO(done): image state styles
-	// TODO(done): image slider state styles
-	// TODO(done): image slider elements
-	// TODO(done): image slider implement with results
+	// TODO(done): image vote state styles
+	// TODO(done): image vote elements
+	// TODO(done): image vote implement with results
 	// TODO: stylize handle
 	// TODO(done): set default 50%
 
@@ -28,10 +28,10 @@ function DOMLoaded() {
 
 	Vue.use(VueTouch);
 	const voteActivity = new Vue({
-		el: '#slider',
-		template: '<slider />',
+		el: '#vote',
+		template: '<vote />',
 		components: {
-			'slider': sliderComponent
+			'vote': voteComponent
 		}
 	});
 }

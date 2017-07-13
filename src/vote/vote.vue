@@ -1,19 +1,19 @@
 <template>
-	<div class="slider" :class="{ 'enable-play': enablePlay }">
-		<div class="slider-main">
-			<div class="slider-scale">
-				<div class="slider-scale__inner">
+	<div class="activity vote" :class="{ 'enable-play': enablePlay }">
+		<div class="vote-main">
+			<div class="vote-scale">
+				<div class="vote-scale__inner">
 					<v-touch @tap="onTap">
-						<div class="slider-scale__line" ref="line">
+						<div class="vote-scale__line" ref="line">
 						</div>
 					</v-touch>
 				</div>
 				<v-touch @panmove="onPanMove" @panend="onPanEnd">
-					<span class="slider-scale__handle" :style="[style, {}]" :class="startPoint"></span>
+					<span class="vote-scale__handle" :style="[style, {}]" :class="startPoint"></span>
 				</v-touch>
 			</div>
-			<div class="slider-value" v-if="value !== null">{{ printValue() }}</div>
-			<div class="slider-image" :style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"></div>
+			<div class="vote-value" v-if="value !== null">{{ printValue() }}</div>
+			<div class="vote-image" :style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"></div>
 		</div>
 	</div>
 </template>
@@ -41,7 +41,7 @@
 				'startPoint': 'left',			// - define direction from the point: left, right
 				'value': 0.5,
 				'scale': {
-					'element': '.slider-scale__line',
+					'element': '.vote-scale__line',
 					'width': null				// - total scale height
 				},
 				'handle': {
@@ -59,7 +59,7 @@
 			}
 		},
 		'mounted': function() {
-			// - set initial value for slider
+			// - set initial value for vote
 			const width = this.getScale().clientWidth;
 			this.setPosition({ 'type': 'force', 'positionX': width * 0.5 });
 			// - set enable play
@@ -128,5 +128,5 @@
 <style lang="scss" scoped>
 	/* add scss support */
 	/* <style lang="scss" scoped> */
-	 @import 'slider.scss';
+	 @import 'vote.scss';
 </style>

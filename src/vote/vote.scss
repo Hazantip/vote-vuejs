@@ -15,7 +15,7 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 		• handle 10
 */
 
-.slider {
+.vote {
 	position: relative;
 	&-main {
 		position: relative;
@@ -127,14 +127,14 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 	}
 	// NOTE: Enable play
 	&.enable-play {
-		.slider-scale {
+		.vote-scale {
 			opacity: 1;
 		}
-		.slider-scale__line {
+		.vote-scale__line {
 			background: $blue;
 			opacity: 1;
 		}
-		.slider-value {
+		.vote-value {
 			opacity: 1;
 			transform: translateY(0);
 			transition: 400ms $sine 900ms;
