@@ -1,6 +1,5 @@
 // - global css
 import Vue from 'vue';
-import VueTouch from 'vue-touch';
 import voteComponent from './vote/vote.vue';
 import './theme/theme.scss';
 
@@ -21,12 +20,12 @@ function DOMLoaded() {
 
 	// - NEW!!!
 	// TODO(done): make horizontal, start left (if have time make right too)
-	// TODO: add feature stars
+	// TODO(done): add feature stars
 	// TODO: add feature like/dislike
 	// TODO: add vote button
 	// TODO: show result with fun animation after vote
 
-	Vue.use(VueTouch);
+
 	const voteActivity = new Vue({
 		el: '#vote',
 		template: '<vote />',

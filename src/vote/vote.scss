@@ -13,6 +13,7 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 	- scale 20
 		• line 0
 		• handle 10
+	- rate 20
 */
 
 .vote {
@@ -123,6 +124,36 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 			bottom: 0;
 			background-color: #000;
 			opacity: 0.38;
+		}
+	}
+	&-rate {
+		position: absolute;
+		left: 34px;
+		right: 34px;
+		bottom: 34px;
+		z-index: 20;
+		&__list {
+			text-align: center;
+			margin: 0;
+			padding: 0 30px;
+			list-style-type: none;
+			display: flex;
+			flex-wrap: nowrap;
+			&.ltr {
+				direction: ltr;
+			}
+		}
+		&__item {
+			display: inline-block;
+			padding: 10px 5px;
+		}
+		&__star {
+			cursor: pointer;
+			//background-color: gold;
+			//width: 36px;
+			//height: 36px;
+			//line-height: 36px;
+			//border-radius: 50%;
 		}
 	}
 	// NOTE: Enable play
