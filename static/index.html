@@ -10,19 +10,9 @@
 <body>
 
 <div class="activity slider" id="slider" :class="{ 'enable-play': enablePlay }">
-	<v-touch @panmove="onPanMove" @panend="onPanEnd">
-		<!--<div-->
-				<!--class="slider-image slider-image&#45;&#45;overlay"-->
-				<!--:class="{ left: isPanLeft, right: isPanRight }"-->
-				<!--:style="[style, { backgroundImage: 'url(' + this.question.imgSrc + ')' }]"-->
-				<!--v-if="question.active"-->
-		<!--&gt;-->
-		<!--</div>-->
-	</v-touch>
 	<div class="slider-main">
 		<div class="slider-scale">
 			<div class="slider-scale__inner">
-				<div class="slider-scale__result" v-if="results.active" :style="[{ height: results.value * 100 + '%' }]"></div>
 				<v-touch @tap="onTap">
 					<div class="slider-scale__line" ref="line">
 					</div>
@@ -33,11 +23,7 @@
 			</v-touch>
 		</div>
 		<div class="slider-value" v-if="value !== null">{{ printValue() }}</div>
-		<div
-			class="slider-image"
-			:style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"
-		    :class="{ 'results-active': results.active, 'less': results.value > value, 'more': results.value <= value }"
-		></div>
+		<div class="slider-image" :style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"></div>
 	</div>
 </div> <!-- slider END -->
 

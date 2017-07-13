@@ -18,10 +18,10 @@ function DOMLoaded() {
 	// TODO(done): image slider elements
 	// TODO(done): image slider implement with results
 	// TODO: stylize handle
-	// TODO: set default 50%
+	// TODO(done): set default 50%
 
 	// - NEW!!!
-	// TODO: make horizontal, start left (if have time make right too)
+	// TODO(done): make horizontal, start left (if have time make right too)
 	// TODO: add feature stars
 	// TODO: add feature like/dislike
 	// TODO: add vote button
@@ -29,19 +29,19 @@ function DOMLoaded() {
 
 	const sliderDefaults = {
 		'enablePlay': false,			// - enable/disable events
-		'startPoint': 'bottom',			// - define direction from the point: bottom, top, left, right
+		'startPoint': 'left',			// - define direction from the point: left, right
 		'value': 0.5,
 		'scale': {
 			'element': '.slider-scale__line',
-			'height': null				// - total scale height
+			'width': null				// - total scale height
 		},
 		'handle': {
 			'position': {
-				'y': 0					// - last handle position
+				'x': 0					// - last handle position
 			}
 		},
 		'timeline': {
-			'initialResultsDelay': 1000
+			'enablePlayDelay': 1000
 		},
 		'style': {}						// - inline css object for handle
 	};
@@ -51,24 +51,14 @@ function DOMLoaded() {
 			...sliderDefaults,			// - default params
 			'image': {
 				'src': '/assets/images/singer.jpg'
-			},
-			'results': {
-				'active': false,				// -
-				'value': 0.7				// -
 			}
 		},
 		'created': function() {
 			//console.log('created', this);
 
-			// - set scale size
-			const height = this.querySelector(this.scale.element).clientHeight;
-			this.setScale({ height });
-
-			// - set initial value
-			if (!this.results.active) {
-				this.setPosition({ 'type': 'force', 'positionY': height * 0.5 });
-			}
-
+			const width = this.getScale().clientWidth;
+			// - set initial value for slider
+			this.setPosition({ 'type': 'force', 'positionX': width * 0.5 });
 		},
 		'beforeMount': function() {
 			//console.log('beforeMount', this);
@@ -76,14 +66,10 @@ function DOMLoaded() {
 		'mounted': function() {
 			//console.log('mounted');
 
-			// - set initial value
-			if (this.results.active) {
-				this.setPosition({ 'type': 'force', 'positionY': this.scale.height * this.results.value });
-			}
 			// - set enable play
 			setTimeout(() => {
 				this.enablePlay = true;
-			}, this.timeline.initialResultsDelay);
+			}, this.timeline.enablePlayDelay);
 		},
 		'beforeUpdate': function() {
 			//console.log('beforeUpdate');
@@ -92,61 +78,57 @@ function DOMLoaded() {
 			//console.log('updated');
 		},
 		'methods': {
-			'onPanMove': function ({ type, deltaY }) {
-				const positionY =
-						this.startPoint === 'bottom'
-							? this.handle.position.y + -(deltaY)
-							: this.handle.position.y + deltaY;
-
-				this.setPosition({ type, positionY });
-
-			},
-			'onPanEnd': function ({ deltaY }) {
-				this.handle.position.y =
-						this.startPoint === 'bottom'
-							? this.handle.position.y + -(deltaY)
-							: this.handle.position.y + deltaY;
-			},
-			'onTap': function ({ type, srcEvent }) {
-				const offsetY = srcEvent.offsetY || srcEvent.layerY;
-				const positionY =
-						this.startPoint === 'bottom'
-							? this.scale.height - offsetY
-							: offsetY;
-
-				this.setPosition({ type, positionY });
-			},
-			'setPosition': function({ type, ...rest }) {
-				const height = this.querySelector(this.scale.element).clientHeight;
-				this.setScale({ height }); // important for case when was resized
-
-				//console.log(this.scale.element, this.scale.element.clientHeight);
-
-				let { positionY } = rest;
-				if (positionY < 0) {
-					positionY = 0;
-				}
-				if (positionY > height) {
-					positionY = height;
-				}
-
-				this.setValue({ positionY, height });
-
-				this.style = {
-					'transform': `translateY(${this.startPoint === 'bottom' ? -positionY : positionY}px)`,
-					'transition': type === 'force' ? '' : 'none',
-					'transitionDelay': type === 'force' ? `${this.timeline.initialResultsDelay}ms` : ''
-				};
-
-				if (type === 'tap' || type === 'force') {
-					this.handle.position.y = positionY;
-				}
+			'getScale': function () {
+				const componentSelector = this.$options.el;
+				return document.querySelector(componentSelector).querySelector(this.scale.element);
 			},
 			'setScale': function(data) {
 				this.scale = Object.assign(this.scale, data, {});
 			},
-			'setValue': function ({ positionY, height }) {
-				this.value = positionY / height;
+			'setValue': function ({ positionX, width }) {
+				this.value = positionX / width;
+			},
+			'setPosition': function({ type, ...rest }) {
+				const width = this.getScale().clientWidth;
+				this.setScale({ width });
+
+				let { positionX } = rest;
+				if (positionX < 0) {
+					positionX = 0;
+				}
+				if (positionX > width) {
+					positionX = width;
+				}
+
+				this.setValue({ positionX, width });
+
+				this.style = {
+					'transform': `translateX(${this.startPoint === 'left' ? positionX : -positionX}px)`,
+					'transition': type === 'force' ? '' : 'none',
+					'transitionDelay': type === 'force' ? `${this.timeline.enablePlayDelay}ms` : ''
+				};
+
+				if (type === 'tap' || type === 'force') {
+					this.handle.position.x = positionX;
+				}
+			},
+			'onTap': function ({ type, srcEvent }) {
+				const offsetX = srcEvent.offsetX || srcEvent.layerX;
+				const positionX = this.startPoint === 'left' ? offsetX : this.scale.width - offsetX;
+
+				this.setPosition({ type, positionX });
+			},
+			'onPanMove': function ({ type, deltaX }) {
+				const positionX = this.getPanPositionX({ deltaX });
+				this.setPosition({ type, positionX });
+
+			},
+			'onPanEnd': function ({ deltaX }) {
+				// - store last position
+				this.handle.position.x = this.getPanPositionX({ deltaX });
+			},
+			'getPanPositionX': function ({ deltaX }) {
+				return this.startPoint === 'left' ? this.handle.position.x + deltaX : this.handle.position.x + -(deltaX);
 			},
 			'printValue': function () {
 				return Math.round(this.value * 100);

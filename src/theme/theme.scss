@@ -15,15 +15,22 @@ body {
 	box-sizing: border-box;
 }
 
+$activityTextSize       : 20px;
+$red                    : #D0021B;
+$blue                   : #02A3D0;
+$handleWidth            : 60;
+$handleHeight           : 46;
+$scaleRadius            : 22px;
+$sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 
-
-
-$activityTextSize: 20px;
-$red: #D0021B;
-$blue: #02A3D0;
-$handleWidth: 60;
-$handleHeight: 46;
-$sine: cubic-bezier(0.39, 0.58, 0.57, 1);
+/**
+	zIndex:
+	- image 0
+	- value 10
+	- scale 20
+		• line 0
+		• handle 10
+*/
 
 .activity, .tab {
 	position: relative;
@@ -37,16 +44,6 @@ $sine: cubic-bezier(0.39, 0.58, 0.57, 1);
 	font-family: Arial, sans-serif;
 }
 
-/**
-	zIndex:
-	- image 0
-	- value 10
-	- scale 20
-		• line 0
-		• result 10
-		• handle 20
-*/
-
 .slider {
 	position: relative;
 	&-main {
@@ -58,64 +55,51 @@ $sine: cubic-bezier(0.39, 0.58, 0.57, 1);
 	&-scale {
 		position: absolute;
 		z-index: 20;
-		top: 42px;
 		bottom: 34px;
 		right: 35px;
-		width: 22px;
+		left: 35px;
+		height: 22px;
 		opacity: 0.66;
 		transition: opacity 1000ms ease;
 		&__inner {
 			position: relative;
 			width: 100%;
 			height: 100%;
-			border-radius: 22px;
+			border-radius: $scaleRadius;
 			overflow: hidden;
 		}
-		&__line,
-		&__result {
+		&__line {
 			position: absolute;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			border-radius: 22px;
-		}
-		&__line {
+			border-radius: $scaleRadius;
 			z-index: 0;
 			top: 0;
 			background: rgba(255, 255, 255, 0.79);
 			opacity: 0.79;
 			transition: opacity 1000ms ease, background-color 1000ms ease;
 		}
-		&__result,
-		&__handle {
-			transition: 1000ms $sine;
-		}
-		&__result {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-			z-index: 10;
-			background-color: $red;
-			transform: scaleY(0);
-			transform-origin: 50% 100%;
-		}
 		&__handle {
 			display: block;
 			position: absolute;
-			z-index: 20;
-			left: 50%;
-			margin-left: -($handleWidth / 2) + px;
+			top: 50%;
+			z-index: 10;
+			margin-top: -($handleHeight / 2) + px;
 			width: ($handleWidth) + px;
 			height: ($handleHeight) + px;
 			background-color: white;
 			border-radius: 10px;
 			cursor: pointer;
-			&.bottom {
-				bottom: 0;
-				margin-bottom: -($handleHeight / 2) + px;
+			transition: 1000ms $sine;
+			box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.07);
+			&.left {
+				left: 0;
+				margin-left: -($handleWidth / 2) + px;
 			}
-			&.top {
-				top: 0;
-				margin-top: -($handleHeight / 2) + px;
+			&.right {
+				right: 0;
+				margin-right: -($handleWidth / 2) + px;
 			}
 		}
 	}
@@ -123,8 +107,8 @@ $sine: cubic-bezier(0.39, 0.58, 0.57, 1);
 		font-size: 3em;
 		position: absolute;
 		z-index: 10;
-		left: 20px;
-		bottom: 20px;
+		left: 34px;
+		bottom: 80px;
 		margin: 0;
 		color: white;
 		&::after {
@@ -169,25 +153,6 @@ $sine: cubic-bezier(0.39, 0.58, 0.57, 1);
 			background-color: #000;
 			opacity: 0.38;
 		}
-		&.results-active {
-			&::after {
-				top: 0;
-				right: 0;
-				left: 40%;
-				background-image: linear-gradient(to right , rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-			}
-			&::before {
-				opacity: 0;
-				transition: background-color 300ms ease, opacity 1000ms ease;
-			}
-			&.more::before {
-				background: $blue;
-				
-			}
-			&.less::before {
-				background: $red;
-			}
-		}
 	}
 	// NOTE: Enable play
 	&.enable-play {
@@ -197,12 +162,6 @@ $sine: cubic-bezier(0.39, 0.58, 0.57, 1);
 		.slider-scale__line {
 			background: $blue;
 			opacity: 1;
-		}
-		.slider-scale__result {
-			transform: scaleY(1);
-		}
-		.slider-image.results-active::before {
-			opacity: 0.38;
 		}
 		.slider-value {
 			opacity: 1;
