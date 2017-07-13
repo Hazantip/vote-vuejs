@@ -1,5 +1,5 @@
 <!doctype html>
-<html dir="rtl" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html dir="rtl" lang="he" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,23 +9,9 @@
 </head>
 <body>
 
-<div class="activity slider" id="slider" :class="{ 'enable-play': enablePlay }">
-	<div class="slider-main">
-		<div class="slider-scale">
-			<div class="slider-scale__inner">
-				<v-touch @tap="onTap">
-					<div class="slider-scale__line" ref="line">
-					</div>
-				</v-touch>
-			</div>
-			<v-touch @panmove="onPanMove" @panend="onPanEnd">
-				<span class="slider-scale__handle" :style="[style, {}]" :class="startPoint"></span>
-			</v-touch>
-		</div>
-		<div class="slider-value" v-if="value !== null">{{ printValue() }}</div>
-		<div class="slider-image" :style="[{ backgroundImage: 'url(' + this.image.src + ')' }]"></div>
-	</div>
-</div> <!-- slider END -->
+<div class="activity">
+	<div id="slider"></div>
+</div>
 
 </body>
 </html>

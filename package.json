@@ -30,11 +30,13 @@
   },
   "homepage": "https://github.com/micooz/es6-webpack-starter#readme",
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "aos": "^2.1.1",
+    "babel-polyfill": "^6.23.0",
     "flickity": "^2.0.8",
     "normalize.css": "^7.0.0",
-    "vue": "^2.3.4",
+    "vue": "^2.4.1",
+    "vue-loader": "^13.0.1",
+    "vue-template-compiler": "^2.4.1",
     "vue-touch": "^2.0.0-beta.4"
   },
   "devDependencies": {
