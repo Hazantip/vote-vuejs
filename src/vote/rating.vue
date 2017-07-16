@@ -3,10 +3,8 @@
 		<div class="vote-rate">
 			<div class="vote-rate__inner">
 				<ul class="vote-rate__list" :class="{ ltr: startPoint === 'left' }">
-					<li class="vote-rate__item" v-for="n in starsCount">
-						<div class="vote-rate__star" @mousedown="onTap(n)" @touchstart="onTap(n)">
-							<Star :active="selected >= n"></Star>
-						</div>
+					<li class="vote-rate__item" v-for="n in starsCount" @mousedown="onTap(n)" @touchstart="onTap(n)">
+						<Star :active="selected >= n"></Star>
 					</li>
 				</ul>
 			</div>

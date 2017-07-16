@@ -146,14 +146,29 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 		&__item {
 			display: inline-block;
 			padding: 10px 5px;
+			@for $i from 1 through 20 {
+				&:nth-child(#{$i}) svg.active {
+					transition-delay: $i * 50 + ms;
+					animation-delay: $i * 50 + ms;
+				}
+			}
 		}
-		&__star {
+		.star {
 			cursor: pointer;
-			//background-color: gold;
-			//width: 36px;
-			//height: 36px;
-			//line-height: 36px;
-			//border-radius: 50%;
+			display: block;
+			width: 100%;
+			opacity: 0.5;
+		}
+		.star.active {
+			transition-timing-function: ease;
+			transition-duration: 250ms;
+			opacity: 1;
+			animation: scaleBounce 250ms ease;
+		}
+		@keyframes scaleBounce {
+			50% {
+				transform: scale(1.35);
+			}
 		}
 	}
 	// NOTE: Enable play
