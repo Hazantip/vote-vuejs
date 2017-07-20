@@ -39,14 +39,14 @@
 				...this.data					// - parent data
 			}
 		},
-		'mounted': function() {
+		mounted () {
 			
 		},
 		'methods': {
-			'onTap': function (props) {
+			onTap (props) {
 				this.selected = props;
 			},
-			'printValue': function () {
+			printValue () {
 				return Math.round(this.value * 100);
 			}
 		}

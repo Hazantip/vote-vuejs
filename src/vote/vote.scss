@@ -14,10 +14,12 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 		• line 0
 		• handle 10
 	- rate 20
+	- done 30
 */
 
 .vote {
 	position: relative;
+	pointer-events: none;
 	&-main {
 		position: relative;
 		max-height: 90vh;
@@ -79,7 +81,7 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 		font-size: 3em;
 		position: absolute;
 		z-index: 10;
-		left: 34px;
+		right: 60px;
 		bottom: 80px;
 		margin: 0;
 		color: white;
@@ -147,7 +149,7 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 			display: inline-block;
 			padding: 10px 5px;
 			@for $i from 1 through 20 {
-				&:nth-child(#{$i}) svg.active {
+				&:nth-child(#{$i}) .star.active {
 					transition-delay: $i * 50 + ms;
 					animation-delay: $i * 50 + ms;
 				}
@@ -158,21 +160,85 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 			display: block;
 			width: 100%;
 			opacity: 0.5;
+			fill: rgba(255, 255, 255, 0.79);
 		}
 		.star.active {
 			transition-timing-function: ease;
 			transition-duration: 250ms;
-			opacity: 1;
-			animation: scaleBounce 250ms ease;
+			animation-duration: 250ms;
+			animation-timing-function: ease;
 		}
-		@keyframes scaleBounce {
-			50% {
-				transform: scale(1.35);
+	}
+	&-button {
+		&__wrap {
+			min-height: 82px;
+			padding: 20px;
+			text-align: center;
+		}
+		display: inline-block;
+		background: $blue;
+		border: none;
+		text-align: center;
+		color: white;
+		padding: 12px 6px;
+		min-width: 120px;
+		outline: none;
+		transition: 250ms ease;
+		cursor: pointer;
+		border-radius: 4px;
+		box-shadow: inset 0 0 0 40px rgba(0, 0, 0, 0);
+		&:hover {
+			background: lighten($blue, 5%);
+		}
+		&:active {
+			background: darken($blue, 5%);
+		}
+		&:disabled {
+			background: transparentize($blue, 1);
+			opacity: 0.5;
+			box-shadow: inset 0 0 0 40px rgba(0, 0, 0, 0.35);
+		}
+	}
+	&-done {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 30;
+		background-color: rgba(0, 0, 0, 0.7);
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		color: white;
+		&__text {
+			padding-top: 50px;
+			font-size: 72px;
+			overflow: hidden;
+			padding-left: 0.5em;
+			direction: ltr;
+			span:not(.percent) {
+				display: inline-block;
+				transform: translateY(100%);
+				opacity: 0;
+				transition: 300ms ease-in;
+				@for $i from 0 to 5 {
+					&:nth-child(#{$i}) {
+						transition-delay: $i * 100 + ms;
+					}
+				}
+			}
+			.animate & {
+				span:not(.percent) {
+					transform: translateY(0);
+					opacity: 1;
+				}
 			}
 		}
 	}
-	// NOTE: Enable play
+	// NOTE: Enable play;
 	&.enable-play {
+		pointer-events: auto;
 		.vote-scale {
 			opacity: 1;
 		}
@@ -185,5 +251,76 @@ $sine                   : cubic-bezier(0.39, 0.58, 0.57, 1);
 			transform: translateY(0);
 			transition: 400ms $sine 900ms;
 		}
+		.vote-rate {
+			.star {
+				fill: rgba(241, 196, 15, 1);
+				&.active {
+					opacity: 1;
+					animation-name: scaleBounce;
+				}
+			}
+		}
+	}
+}
+
+.percent {
+	display: inline-block;
+	position: relative;
+	//margin-right: -0.5em;
+	left: -0.75em;
+	width: 1em;
+	height: 0.75em;
+	transform: skewX(-25deg) scaleY(0);
+	transition: 500ms ease 400ms;
+	&-part {
+		position: absolute;
+		width: 100%;
+		height: 0.75em;
+		overflow: hidden;
+		&::before {
+			content: '%';
+			display: block;
+			position: absolute;
+			right: 0;
+			top: -0.05em;
+			transition: 300ms ease 900ms;
+			height: 100%;
+		}
+		&:first-child {
+			//transform: skewX(-25deg);
+			border-right: 0.1em solid white;
+			&::before {
+				transform: skewX(27deg) translateX(100%) translateY(50px);
+			}
+		}
+		&:last-child {
+			transform: translateX(100%);
+			&::before {
+				transform: skewX(27deg) translateX(-100%) translateY(-50px);
+			}
+		}
+	}
+	.animate & {
+		transform: skewX(-25deg) scaleY(1);
+		.percent-part {
+			&:first-child {
+				&::before {
+					//transform: skewX(27deg) translateX(60%) translateY(-10px);
+					transform: skewX(27deg) translateX(0.49em) translateY(-0.11em);
+				}
+			}
+			&:last-child {
+				&::before {
+					//transform: skewX(27deg) translateX(-62%) translateY(-10px);
+					transform: skewX(27deg) translateX(-0.65em) translateY(-0.15em);
+				}
+			}
+		}
+	}
+}
+
+@keyframes scaleBounce {
+	50% {
+		transform: scale(1.35);
 	}
 }

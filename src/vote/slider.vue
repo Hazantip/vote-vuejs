@@ -49,23 +49,23 @@
 				...this.data					// - parent data
 			}
 		},
-		'mounted': function() {
+		mounted () {
 			// - set initial value for vote
 			const width = this.getScale().clientWidth;
 			this.setPosition({ 'type': 'force', 'positionX': width * this.value });
 		},
 		'methods': {
-			'getScale': function () {
+			getScale () {
 				const component = this.$parent.$el;
 				return component.querySelector(this.scale.element);
 			},
-			'setScale': function(data) {
+			setScale(data) {
 				this.scale = Object.assign(this.scale, data, {});
 			},
-			'setValue': function ({ positionX, width }) {
+			setValue ({ positionX, width }) {
 				this.value = positionX / width;
 			},
-			'setPosition': function({ type, ...rest }) {
+			setPosition({ type, ...rest }) {
 				const width = this.getScale().clientWidth;
 				this.setScale({ width });
 				
@@ -87,25 +87,25 @@
 					this.handle.position.x = positionX;
 				}
 			},
-			'onTap': function ({ type, srcEvent }) {
+			onTap ({ type, srcEvent }) {
 				const offsetX = srcEvent.offsetX || srcEvent.layerX;
 				const positionX = this.startPoint === 'left' ? offsetX : this.scale.width - offsetX;
 				
 				this.setPosition({ type, positionX });
 			},
-			'onPanMove': function ({ type, deltaX }) {
+			onPanMove ({ type, deltaX }) {
 				const positionX = this.getPanPositionX({ deltaX });
 				this.setPosition({ type, positionX });
 				
 			},
-			'onPanEnd': function ({ deltaX }) {
+			onPanEnd ({ deltaX }) {
 				// - store last position
 				this.handle.position.x = this.getPanPositionX({ deltaX });
 			},
-			'getPanPositionX': function ({ deltaX }) {
+			getPanPositionX ({ deltaX }) {
 				return this.startPoint === 'left' ? this.handle.position.x + deltaX : this.handle.position.x + -(deltaX);
 			},
-			'printValue': function () {
+			printValue () {
 				return Math.round(this.value * 100);
 			}
 		}
